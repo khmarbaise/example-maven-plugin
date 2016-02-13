@@ -27,20 +27,18 @@ public class GreetingMojo
     {
         getLog().info( "Hello, world." );
 
+        for ( String item : session.getRequest().getGoals() )
+        {
+            getLog().info( "Goal:" + item );
+        }
 
-        if ( session.getRequest().isProjectPresent() )
+        List<MavenProject> sortedProjects = session.getProjectDependencyGraph().getSortedProjects();
+        for ( MavenProject mavenProject : sortedProjects )
         {
-            List<MavenProject> sortedProjects = session.getProjectDependencyGraph().getSortedProjects();
-            for ( MavenProject mavenProject : sortedProjects )
-            {
-                getLog().info( " SortedProject: " + mavenProject.getId() + " BD:" + mavenProject.getBasedir() + " "
-                    + mavenProject.getArtifact().getFile() );
-            }
+            getLog().info( " SortedProject: " + mavenProject.getId() );
         }
-        else
-        {
-            getLog().info( "We have been called directly on a goal base." );
-        }
+
+        getLog().info( "baseDir:" + project.getBasedir() );
 
     }
 
