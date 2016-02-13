@@ -27,12 +27,19 @@ public class GreetingMojo
     {
         getLog().info( "Hello, world." );
 
-        List<MavenProject> sortedProjects = session.getProjectDependencyGraph().getSortedProjects();
-        for ( MavenProject mavenProject : sortedProjects )
-        {
 
-            getLog().info( " SortedProject: " + mavenProject.getId() + " BD:" + mavenProject.getBasedir() + " "
-                + mavenProject.getArtifact().getFile() );
+        if ( session.getRequest().isProjectPresent() )
+        {
+            List<MavenProject> sortedProjects = session.getProjectDependencyGraph().getSortedProjects();
+            for ( MavenProject mavenProject : sortedProjects )
+            {
+                getLog().info( " SortedProject: " + mavenProject.getId() + " BD:" + mavenProject.getBasedir() + " "
+                    + mavenProject.getArtifact().getFile() );
+            }
+        }
+        else
+        {
+            getLog().info( "We have been called directly on a goal base." );
         }
 
     }
